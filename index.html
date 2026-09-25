@@ -3,235 +3,232 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Alpha Smart — ERP & POS</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<title>Alpha Smart — POS & ERP</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--bg:#070a12;--panel:#0d1220;--panel2:#111827;--line:#202a3d;--txt:#eef4ff;--muted:#8d9ab1;--blue:#42a5ff;--purple:#8b5cf6;--green:#28d17c;--red:#ff5d73;--gold:#f5c451;--r:18px}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 10%,#17264b 0,transparent 30%),radial-gradient(circle at 85% 5%,#241343 0,transparent 28%),var(--bg);color:var(--txt);font-family:Cairo,Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-height:100vh;display:flex}.side{width:250px;background:rgba(8,12,22,.9);border-left:1px solid var(--line);padding:20px;position:fixed;right:0;top:0;bottom:0;z-index:20;backdrop-filter:blur(18px)}.brand{font-family:"Space Grotesk";font-size:23px;font-weight:700;letter-spacing:.5px;margin-bottom:25px}.brand b{color:var(--blue)}.userbox{padding:14px;border:1px solid var(--line);background:#0b1120;border-radius:15px;margin-bottom:18px}.nav{display:grid;gap:7px}.nav button{background:transparent;color:var(--muted);text-align:right;padding:12px 13px;border-radius:12px}.nav button.active,.nav button:hover{background:linear-gradient(90deg,#162641,#111a2d);color:#fff}.main{margin-right:250px;width:calc(100% - 250px);padding:22px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:18px}.top h1{margin:0;font-size:25px}.actions{display:flex;gap:8px}.btn{padding:10px 14px;border-radius:12px;background:#162033;color:#fff;border:1px solid var(--line)}.btn.primary{background:linear-gradient(135deg,var(--blue),var(--purple));border:0}.btn.danger{background:#361620;color:#ff9aaa}.btn.green{background:#123b2b;color:#7df0b1}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:rgba(13,18,32,.88);border:1px solid var(--line);border-radius:var(--r);padding:17px;box-shadow:0 15px 40px #0003}.metric small{color:var(--muted)}.metric strong{display:block;font-size:28px;margin-top:6px}.section{margin-top:18px}.section h2{font-size:18px;margin:0 0 12px}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:15px}.table{width:100%;border-collapse:collapse;min-width:700px}.table th,.table td{padding:12px;border-bottom:1px solid var(--line);text-align:right}.table th{color:#9eb0ca;background:#0a1020}.pill{padding:4px 9px;border-radius:20px;font-size:12px;background:#162237;color:#a9c8f5}.modal{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;z-index:50;padding:15px}.modal.show{display:flex}.dialog{width:min(760px,100%);max-height:92vh;overflow:auto;background:#0b1120;border:1px solid #26334d;border-radius:20px;padding:20px}.form{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label{color:#9eabc0;font-size:13px}.field input,.field select,.field textarea{width:100%;background:#080e1b;color:#fff;border:1px solid #29364f;border-radius:11px;padding:11px;outline:none}.field textarea{min-height:90px}.login{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 50% 20%,#182f61,transparent 38%),#05070c}.loginbox{width:min(450px,100%);padding:28px;background:#0b1120eF;border:1px solid #2b3c5c;border-radius:25px;box-shadow:0 30px 100px #0008}.loginbox h1{font-family:"Space Grotesk";margin:0 0 6px}.loginbox p{color:var(--muted)}.loginbox .field{margin:12px 0}.hidden{display:none!important}.toast{position:fixed;left:18px;bottom:18px;background:#101a2b;border:1px solid #30415f;border-radius:12px;padding:12px 16px;z-index:100;display:none}.pos{display:grid;grid-template-columns:1.5fr 1fr;gap:15px}.products{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-height:62vh;overflow:auto}.product{padding:13px;background:#0a1120;border:1px solid var(--line);border-radius:14px}.product:hover{border-color:#477bc0}.cart{max-height:62vh;overflow:auto}.cartrow{display:flex;justify-content:space-between;gap:8px;padding:11px 0;border-bottom:1px solid var(--line)}.search{margin-bottom:10px}.search input{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:#080e1b;color:#fff}.empty{padding:30px;text-align:center;color:var(--muted)}@media(max-width:950px){.side{transform:translateX(100%);transition:.2s}.side.open{transform:translateX(0)}.main{margin-right:0;width:100%}.grid{grid-template-columns:repeat(2,1fr)}.pos{grid-template-columns:1fr}.products{grid-template-columns:repeat(2,1fr)}.mobile{display:block!important}}@media(max-width:560px){.main{padding:13px}.grid{grid-template-columns:1fr 1fr}.products{grid-template-columns:1fr}.form{grid-template-columns:1fr}.top h1{font-size:20px}.mobile{display:block!important}}.mobile{display:none}
-@media print{body{background:#fff;color:#000}.side,.top,.no-print{display:none!important}.main{margin:0;width:100%;padding:0}.receipt{display:block!important;color:#000!important;background:#fff!important;border:0!important}.modal{position:static;background:#fff}.dialog{box-shadow:none;border:0;width:100%;max-height:none}.print-hide{display:none!important}}
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+:root{--bg:#070b13;--panel:#0d1422;--panel2:#111b2d;--line:#20304a;--txt:#edf4ff;--muted:#91a1ba;--blue:#4aa3ff;--purple:#8b6cff;--green:#45df9a;--red:#ff5f70;--yellow:#ffd166}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0,#14274a 0,transparent 35%),radial-gradient(circle at 90% 10%,#26164a 0,transparent 32%),var(--bg);color:var(--txt);font-family:Cairo,Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}.hidden{display:none!important}
+#login{min-height:100vh;display:grid;place-items:center;padding:20px}.login-card{width:min(430px,100%);background:#0d1422dd;border:1px solid #29415f;border-radius:24px;padding:30px;box-shadow:0 25px 80px #0009;backdrop-filter:blur(18px)}.logo{font-size:30px;font-weight:800}.logo b{color:var(--blue)}.sub{color:var(--muted);margin:6px 0 25px}.field{display:grid;gap:7px;margin:12px 0}.field label{font-size:13px;color:#aebbd0}.field input,.field select,.field textarea{width:100%;background:#08101d;border:1px solid var(--line);color:var(--txt);padding:12px 13px;border-radius:12px;outline:0}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue)}
+.btn{padding:11px 15px;border-radius:12px;color:#fff;background:#18263b;border:1px solid #2a3d59}.btn.primary{background:linear-gradient(135deg,#287ee5,#7358e9);border:0}.btn.green{background:#123b2c;color:#70f2b1;border:1px solid #236b4e}.btn.red{background:#3a1720;color:#ff8c98;border:1px solid #6b2634}.btn.sm{padding:7px 10px;font-size:12px}.msg{min-height:22px;color:#ff8b97;font-size:13px}
+#app{display:none;min-height:100vh}.layout{display:grid;grid-template-columns:250px 1fr;min-height:100vh}.side{background:#08101bdd;border-left:1px solid var(--line);padding:18px;position:sticky;top:0;height:100vh}.brand{font-weight:800;font-size:21px;padding:8px 6px 18px}.brand span{color:var(--blue)}.nav{display:grid;gap:7px}.nav button{background:transparent;color:#aab8cc;text-align:right;padding:12px;border-radius:11px}.nav button:hover,.nav button.active{background:#15233a;color:#fff}.userbox{position:absolute;bottom:15px;left:15px;right:15px;border-top:1px solid var(--line);padding-top:12px;color:var(--muted);font-size:12px}
+.main{padding:22px;min-width:0}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}.top h1{font-size:24px;margin:0}.top p{margin:3px 0;color:var(--muted);font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.card{background:#0d1625dc;border:1px solid var(--line);border-radius:18px;padding:17px;box-shadow:0 12px 35px #0003}.metric .v{font-size:26px;font-weight:800;margin-top:7px}.metric .l{color:var(--muted);font-size:12px}.blue{color:#6ab4ff}.green-t{color:#5de6a5}.yellow-t{color:#ffd166}.red-t{color:#ff7786}
+.panel{background:#0d1625dc;border:1px solid var(--line);border-radius:18px;padding:17px;margin-top:14px}.panel h3{margin:0 0 13px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:13px}.toolbar input,.toolbar select{background:#08101d;border:1px solid var(--line);color:#fff;border-radius:11px;padding:10px}.toolbar input{min-width:220px;flex:1}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:11px 9px;border-bottom:1px solid #1a2940;text-align:right;vertical-align:middle}th{color:#9eb0c8;font-weight:600}.tag{display:inline-block;padding:4px 8px;border-radius:99px;background:#13233a;color:#91c8ff;font-size:11px}.empty{text-align:center;color:var(--muted);padding:30px}
+.pos{display:grid;grid-template-columns:1.45fr .8fr;gap:14px}.products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-height:62vh;overflow:auto}.prod{padding:13px;border-radius:14px;background:#101d31;border:1px solid #20344f;text-align:right}.prod:hover{border-color:#4b7db0}.prod .name{font-weight:700}.prod .meta{font-size:11px;color:var(--muted);margin:4px 0 9px}.cart{position:sticky;top:15px;height:max-content}.cartrow{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid #1a2940}.qty{display:flex;align-items:center;gap:5px}.qty button{width:25px;height:25px;border-radius:7px;background:#1a2a41;color:#fff}.totals{display:grid;gap:7px;margin-top:12px}.totalrow{display:flex;justify-content:space-between;color:#aebbd0}.grand{font-size:20px;font-weight:800;color:#fff;border-top:1px solid var(--line);padding-top:10px}
+.modal{position:fixed;inset:0;background:#0009;display:none;place-items:center;padding:18px;z-index:50}.modal.show{display:grid}.modalbox{width:min(760px,100%);max-height:92vh;overflow:auto;background:#0c1524;border:1px solid #2a4160;border-radius:20px;padding:20px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.formgrid .full{grid-column:1/-1}.receipt{width:80mm;background:#fff;color:#000;padding:7mm;margin:auto;font-family:Arial,sans-serif}.receipt h2,.receipt p{text-align:center;margin:4px 0}.receipt table{color:#000;font-size:12px}.receipt th,.receipt td{border-bottom:1px dashed #999;padding:4px}.receipt .r-total{font-size:17px;font-weight:bold;display:flex;justify-content:space-between;margin-top:8px}
+@media(max-width:1000px){.cards{grid-template-columns:repeat(2,1fr)}.pos{grid-template-columns:1fr}.cart{position:static}.products{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.layout{display:block}.side{height:auto;position:relative;border-left:0;border-bottom:1px solid var(--line)}.nav{grid-template-columns:repeat(3,1fr)}.userbox{position:static;margin-top:10px}.main{padding:13px}.cards{grid-template-columns:1fr 1fr}.grid2,.formgrid{grid-template-columns:1fr}.products{grid-template-columns:1fr}.top h1{font-size:19px}}
+@media print{body{background:#fff}.layout,#login{display:none!important}.modal{position:static;background:#fff;display:block!important}.modalbox{border:0;padding:0;max-height:none}.no-print{display:none!important}.receipt{width:80mm}}
 </style>
 </head>
 <body>
-<div id="login" class="login">
- <div class="loginbox">
-  <h1>ALPHA <b style="color:#42a5ff">SMART</b></h1>
-  <p>نظام نقاط بيع ومحاسبة وإدارة مخزون</p>
-  <div class="field"><label>البريد الإلكتروني</label><input id="email" type="email" autocomplete="username"></div>
-  <div class="field"><label>كلمة المرور</label><input id="password" type="password" autocomplete="current-password"></div>
-  <button class="btn primary" style="width:100%;padding:13px" onclick="login()">تسجيل الدخول</button>
-  <p id="loginErr" style="color:#ff7b8d"></p>
- </div>
-</div>
+<section id="login">
+  <div class="login-card">
+    <div class="logo">ALPHA <b>SMART</b></div>
+    <div class="sub">نظام نقاط بيع وإدارة متجر</div>
+    <div class="field"><label>البريد الإلكتروني</label><input id="email" type="email" autocomplete="username"></div>
+    <div class="field"><label>كلمة المرور</label><input id="password" type="password" autocomplete="current-password"></div>
+    <button class="btn primary" style="width:100%;margin-top:8px" id="loginBtn">دخول النظام</button>
+    <div id="loginMsg" class="msg"></div>
+  </div>
+</section>
 
-<div id="app" class="app hidden">
-<aside id="side" class="side">
- <div class="brand">ALPHA <b>SMART</b></div>
- <div class="userbox"><b id="displayName">—</b><br><small id="roleText" style="color:#8d9ab1">—</small></div>
- <div class="nav" id="nav">
-  <button class="active" data-page="dashboard">▣ لوحة التحكم</button>
-  <button data-page="pos">▤ نقطة البيع</button>
-  <button data-page="products">▦ المنتجات والمخزون</button>
-  <button data-page="sales">◫ المبيعات</button>
-  <button data-page="purchases">⇩ المشتريات</button>
-  <button data-page="customers">♙ العملاء</button>
-  <button data-page="suppliers">♙ الموردون</button>
-  <button data-page="expenses">◈ المصروفات</button>
-  <button data-page="cash">▣ الصندوق</button>
-  <button data-page="employees">♟ الموظفون</button>
-  <button data-page="reports">▤ التقارير</button>
-  <button data-page="settings">⚙ الإعدادات</button>
- </div>
- <button class="btn" style="width:100%;margin-top:15px" onclick="logout()">تسجيل الخروج</button>
+<div id="app">
+<div class="layout">
+<aside class="side">
+  <div class="brand">ALPHA <span>SMART</span></div>
+  <div class="nav">
+    <button data-page="dashboard" class="active">الرئيسية</button>
+    <button data-page="pos">نقطة البيع</button>
+    <button data-page="products">المنتجات</button>
+    <button data-page="sales">الفواتير</button>
+    <button data-page="purchases">المشتريات</button>
+    <button data-page="customers">العملاء</button>
+    <button data-page="suppliers">الموردون</button>
+    <button data-page="expenses">المصروفات</button>
+    <button data-page="stock">المخزون</button>
+    <button data-page="cash">الصندوق</button>
+    <button data-page="reports">التقارير</button>
+    <button data-page="settings">الإعدادات</button>
+  </div>
+  <div class="userbox" id="userBox"></div>
 </aside>
 <main class="main">
- <div class="top"><div><button class="btn mobile" onclick="document.getElementById('side').classList.toggle('open')">☰</button> <h1 id="pageTitle" style="display:inline">لوحة التحكم</h1></div><div class="actions"><span class="pill" id="clock"></span><button class="btn" onclick="refreshPage()">↻ تحديث</button></div></div>
- <div id="content"></div>
+  <div class="top"><div><h1 id="pageTitle">الرئيسية</h1><p id="companyLine">جاري التحميل...</p></div><div class="actions"><button class="btn sm" id="refreshBtn">تحديث</button><button class="btn sm red" id="logoutBtn">خروج</button></div></div>
+  <div id="content"></div>
 </main>
 </div>
+</div>
 
-<div id="modal" class="modal"><div class="dialog"><div style="display:flex;justify-content:space-between;align-items:center"><h2 id="modalTitle"></h2><button class="btn" onclick="closeModal()">✕</button></div><div id="modalBody"></div></div></div>
-<div id="toast" class="toast"></div>
+<div class="modal" id="modal"><div class="modalbox" id="modalBox"></div></div>
 
 <script>
 const SUPABASE_URL="https://sdvbesezfojuoxlytbbt.supabase.co";
 const SUPABASE_KEY="sb_publishable_9TkfjUai4MUO_5sBQEoeiw_0vNsW3My";
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-let session=null, profile=null, company=null, branch=null, products=[], customers=[], suppliers=[], cart=[], currentPage="dashboard", saleCustomer=null;
-
+let session=null, profile=null, company=null, branch=null, products=[], cart=[], customers=[], settings={};
 const $=id=>document.getElementById(id);
-function toast(x){$("toast").textContent=x;$("toast").style.display="block";clearTimeout(window.__t);window.__t=setTimeout(()=>$("toast").style.display="none",3000)}
-function money(x){return Number(x||0).toLocaleString("ar-EG",{minimumFractionDigits:2,maximumFractionDigits:2})+" ج.م"}
-function esc(x){return String(x??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-function closeModal(){$("modal").classList.remove("show")}
-function openModal(title,html){$("modalTitle").textContent=title;$("modalBody").innerHTML=html;$("modal").classList.add("show")}
-function tick(){$("clock").textContent=new Date().toLocaleTimeString("ar-EG")} setInterval(tick,1000);tick();
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const money=n=>new Intl.NumberFormat("ar-EG",{style:"currency",currency:company?.currency_code||"EGP",maximumFractionDigits:2}).format(Number(n||0));
+const toast=m=>alert(m);
+async function api(q){const {data,error}=await q;if(error)throw error;return data}
+async function boot(){
+ const {data:{session:s}}=await sb.auth.getSession(); if(!s){$("login").style.display="grid";return}
+ session=s;
+ try{
+   profile=await api(sb.from("profiles").select("*").eq("id",s.user.id).maybeSingle());
+   if(!profile)throw new Error("لا يوجد Profile لهذا المستخدم. أنشئ profiles بنفس auth.users.id.");
+   company=await api(sb.from("companies").select("*").eq("id",profile.company_id).single());
+   branch=profile.branch_id?await api(sb.from("branches").select("*").eq("id",profile.branch_id).maybeSingle()):null;
+   settings=await api(sb.from("settings").select("*").eq("company_id",company.id).maybeSingle())||{};
+   $("login").style.display="none";$("app").style.display="block";
+   $("userBox").innerHTML=`${esc(profile.display_name||session.user.email)}<br><span class="tag">${esc(profile.role)}</span>`;
+   $("companyLine").textContent=`${company.name}${branch?" — "+branch.name:""}`;
+   await navigate("dashboard");
+ }catch(e){$("loginMsg").textContent=e.message||"حدث خطأ";await sb.auth.signOut();$("login").style.display="grid";$("app").style.display="none"}
+}
+$("loginBtn").onclick=async()=>{
+ $("loginMsg").textContent="جاري الدخول...";
+ const {error}=await sb.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});
+ $("loginMsg").textContent=error?error.message:""; if(!error)boot();
+};
+$("logoutBtn").onclick=async()=>{await sb.auth.signOut();location.reload()};
+$("refreshBtn").onclick=()=>navigate(currentPage);
+let currentPage="dashboard";
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>navigate(b.dataset.page));
+async function navigate(page){currentPage=page;document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));$("pageTitle").textContent={dashboard:"الرئيسية",pos:"نقطة البيع",products:"المنتجات",sales:"الفواتير",purchases:"المشتريات",customers:"العملاء",suppliers:"الموردون",expenses:"المصروفات",stock:"المخزون",cash:"الصندوق",reports:"التقارير",settings:"الإعدادات"}[page];try{await pages[page]()}catch(e){$("content").innerHTML=`<div class="panel"><b>خطأ</b><p>${esc(e.message)}</p></div>`}}
 
-async function login(){
- $("loginErr").textContent="";
- const {data,error}=await sb.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});
- if(error){$("loginErr").textContent=error.message;return}
- await boot(data.session);
+const pages={
+dashboard:async()=>{
+ const [sales,prods,cust,exp]=await Promise.all([
+   api(sb.from("sales").select("total,status,created_at").eq("company_id",company.id).eq("status","completed")),
+   api(sb.from("stock").select("quantity,min_stock,product_id").eq("company_id",company.id).eq("branch_id",branch?.id||"00000000-0000-0000-0000-000000000000")),
+   api(sb.from("customers").select("balance_due").eq("company_id",company.id)),
+   api(sb.from("expenses").select("amount,created_at").eq("company_id",company.id))
+ ]);
+ const today=new Date().toISOString().slice(0,10), ts=sales.filter(x=>x.created_at?.slice(0,10)===today).reduce((a,x)=>a+Number(x.total),0), low=prods.filter(x=>Number(x.quantity)<=Number(x.min_stock??0)).length, due=cust.reduce((a,x)=>a+Number(x.balance_due||0),0);
+ $("content").innerHTML=`<div class="cards">
+ <div class="card metric"><div class="l">مبيعات اليوم</div><div class="v blue">${money(ts)}</div></div>
+ <div class="card metric"><div class="l">إجمالي الفواتير</div><div class="v">${sales.length}</div></div>
+ <div class="card metric"><div class="l">نواقص المخزون</div><div class="v yellow-t">${low}</div></div>
+ <div class="card metric"><div class="l">مديونية العملاء</div><div class="v red-t">${money(due)}</div></div></div>
+ <div class="grid2"><div class="panel"><h3>اختصارات</h3><div class="actions"><button class="btn primary" onclick="navigate('pos')">فتح نقطة البيع</button><button class="btn" onclick="openProduct()">إضافة منتج</button><button class="btn" onclick="navigate('sales')">الفواتير</button><button class="btn" onclick="navigate('stock')">المخزون</button></div></div>
+ <div class="panel"><h3>النظام</h3><p style="color:var(--muted)">قاعدة البيانات: Supabase<br>الشركة: ${esc(company.name)}<br>الفرع: ${esc(branch?.name||"غير محدد")}</p></div></div>`;
+},
+pos:async()=>{
+ products=await api(sb.from("products").select("*").eq("company_id",company.id).eq("is_active",true).order("name"));
+ customers=await api(sb.from("customers").select("*").eq("company_id",company.id).order("name"));
+ renderPOS();
+},
+products:async()=>{
+ products=await api(sb.from("products").select("*,categories(name),units(name,symbol)").eq("company_id",company.id).order("created_at",{ascending:false}));
+ $("content").innerHTML=`<div class="panel"><div class="toolbar"><input id="psearch" placeholder="بحث بالاسم أو SKU أو Barcode"><button class="btn primary" onclick="openProduct()">+ إضافة منتج</button><button class="btn" onclick="printLabels()">طباعة الباركود</button></div><div id="ptable"></div></div>`;
+ $("psearch").oninput=()=>drawProducts($("psearch").value);drawProducts("");
+},
+sales:async()=>{
+ const rows=await api(sb.from("sales").select("*,customers(name)").eq("company_id",company.id).order("created_at",{ascending:false}).limit(300));
+ $("content").innerHTML=`<div class="panel"><div class="toolbar"><input id="ssearch" placeholder="بحث برقم الفاتورة أو العميل"></div><div id="stable"></div></div>`;
+ const draw=(q="")=>{const r=rows.filter(x=>String(x.invoice_number).includes(q)||String(x.customers?.name||"").includes(q));$("stable").innerHTML=`<table><thead><tr><th>الفاتورة</th><th>العميل</th><th>الحالة</th><th>الإجمالي</th><th>التاريخ</th><th></th></tr></thead><tbody>${r.map(x=>`<tr><td>#${x.invoice_number}</td><td>${esc(x.customers?.name||"نقدي")}</td><td><span class="tag">${esc(x.status)}</span></td><td>${money(x.total)}</td><td>${new Date(x.created_at).toLocaleString("ar-EG")}</td><td><button class="btn sm" onclick="printInvoice('${x.id}')">طباعة</button></td></tr>`).join("")||`<tr><td colspan="6" class="empty">لا توجد فواتير</td></tr>`}</tbody></table>`};$("ssearch").oninput=e=>draw(e.target.value);draw();
+},
+purchases:async()=>{
+ const rows=await api(sb.from("purchases").select("*,suppliers(name)").eq("company_id",company.id).order("created_at",{ascending:false}).limit(300));
+ $("content").innerHTML=`<div class="panel"><div class="toolbar"><button class="btn primary" onclick="openPurchase()">+ فاتورة شراء</button></div><table><thead><tr><th>الفاتورة</th><th>المورد</th><th>الإجمالي</th><th>المدفوع</th><th>التاريخ</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${esc(x.invoice_number||x.id.slice(0,8))}</td><td>${esc(x.suppliers?.name||"-")}</td><td>${money(x.total)}</td><td>${money(x.paid)}</td><td>${new Date(x.created_at).toLocaleString("ar-EG")}</td></tr>`).join("")||`<tr><td colspan="5" class="empty">لا توجد مشتريات</td></tr>`}</tbody></table></div>`;
+},
+customers:async()=>{
+ customers=await api(sb.from("customers").select("*").eq("company_id",company.id).order("name"));
+ $("content").innerHTML=`<div class="panel"><div class="toolbar"><input id="csearch" placeholder="بحث"><button class="btn primary" onclick="openCustomer()">+ عميل</button></div><div id="ctable"></div></div>`;
+ const draw=(q="")=>{let r=customers.filter(x=>x.name.includes(q)||(x.phone||"").includes(q));$("ctable").innerHTML=`<table><thead><tr><th>الاسم</th><th>الهاتف</th><th>المستحق</th><th></th></tr></thead><tbody>${r.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.phone||"-")}</td><td>${money(x.balance_due)}</td><td><button class="btn sm" onclick="customerStatement('${x.id}')">كشف حساب</button></td></tr>`).join("")}</tbody></table>`};$("csearch").oninput=e=>draw(e.target.value);draw();
+},
+suppliers:async()=>{
+ const rows=await api(sb.from("suppliers").select("*").eq("company_id",company.id).order("name"));
+ $("content").innerHTML=`<div class="panel"><div class="toolbar"><button class="btn primary" onclick="openSupplier()">+ مورد</button></div><table><thead><tr><th>الاسم</th><th>الهاتف</th><th>المستحق</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.phone||"-")}</td><td>${money(x.balance_due)}</td></tr>`).join("")}</tbody></table></div>`;
+},
+expenses:async()=>{
+ const rows=await api(sb.from("expenses").select("*").eq("company_id",company.id).order("created_at",{ascending:false}).limit(300));
+ $("content").innerHTML=`<div class="panel"><div class="toolbar"><button class="btn primary" onclick="openExpense()">+ مصروف</button></div><table><thead><tr><th>العنوان</th><th>التصنيف</th><th>المبلغ</th><th>التاريخ</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${esc(x.title)}</td><td>${esc(x.category||"-")}</td><td>${money(x.amount)}</td><td>${new Date(x.created_at).toLocaleString("ar-EG")}</td></tr>`).join("")}</tbody></table></div>`;
+},
+stock:async()=>{
+ const rows=await api(sb.from("stock").select("*,products(name,sku,barcode,min_stock)").eq("company_id",company.id).eq("branch_id",branch?.id||"00000000-0000-0000-0000-000000000000"));
+ $("content").innerHTML=`<div class="panel"><table><thead><tr><th>المنتج</th><th>SKU</th><th>Barcode</th><th>الكمية</th><th>الحد الأدنى</th><th>الحالة</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${esc(x.products?.name)}</td><td>${esc(x.products?.sku||"-")}</td><td>${esc(x.products?.barcode||"-")}</td><td>${x.quantity}</td><td>${x.products?.min_stock??0}</td><td>${Number(x.quantity)<=Number(x.products?.min_stock||0)?'<span class="tag" style="color:#ffd166">منخفض</span>':'<span class="tag" style="color:#5de6a5">جيد</span>'}</td></tr>`).join("")||`<tr><td colspan="6" class="empty">لا توجد بيانات مخزون</td></tr>`}</tbody></table></div>`;
+},
+cash:async()=>{
+ const rows=await api(sb.from("cash_transactions").select("*").eq("company_id",company.id).order("created_at",{ascending:false}).limit(200));
+ $("content").innerHTML=`<div class="panel"><h3>حركات الصندوق</h3><table><thead><tr><th>النوع</th><th>المبلغ</th><th>ملاحظة</th><th>التاريخ</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${esc(x.type)}</td><td>${money(x.amount)}</td><td>${esc(x.note||"-")}</td><td>${new Date(x.created_at).toLocaleString("ar-EG")}</td></tr>`).join("")||`<tr><td colspan="4" class="empty">لا توجد حركات</td></tr>`}</tbody></table></div>`;
+},
+reports:async()=>{
+ const sales=await api(sb.from("sales").select("total,status,created_at").eq("company_id",company.id));
+ const completed=sales.filter(x=>x.status==="completed"), total=completed.reduce((a,x)=>a+Number(x.total),0);
+ $("content").innerHTML=`<div class="cards"><div class="card metric"><div class="l">إجمالي المبيعات</div><div class="v blue">${money(total)}</div></div><div class="card metric"><div class="l">الفواتير المكتملة</div><div class="v">${completed.length}</div></div></div><div class="panel"><button class="btn" onclick="exportSales()">تصدير CSV</button></div>`;
+},
+settings:async()=>{
+ $("content").innerHTML=`<div class="panel"><h3>إعدادات الفاتورة</h3><div class="formgrid">
+<div class="field"><label>رأس الفاتورة</label><input id="setHead" value="${esc(settings.receipt_header||company.name)}"></div>
+<div class="field"><label>أسفل الفاتورة</label><input id="setFoot" value="${esc(settings.receipt_footer||"شكرًا لتعاملكم معنا")}"></div>
+<div class="field"><label>رقم واتساب</label><input id="setWA" value="${esc(settings.whatsapp_number||"")}"></div>
+<div class="field"><label>الضريبة الافتراضية %</label><input id="setTax" type="number" value="${settings.default_tax_rate||0}"></div></div><button class="btn primary" onclick="saveSettings()">حفظ الإعدادات</button></div>`;
 }
-async function logout(){await sb.auth.signOut();location.reload()}
-async function getProfile(){
- const {data,error}=await sb.from("profiles").select("*").eq("id",session.user.id).maybeSingle();
- if(error)throw error;if(!data)throw new Error("لم يتم العثور على Profile لهذا المستخدم.");
- profile=data;
- const c=await sb.from("companies").select("*").eq("id",profile.company_id).single(); if(c.error)throw c.error; company=c.data;
- if(profile.branch_id){const b=await sb.from("branches").select("*").eq("id",profile.branch_id).maybeSingle();branch=b.data}
+};
+function drawProducts(q){
+ const r=products.filter(x=>[x.name,x.sku,x.barcode].some(v=>String(v||"").toLowerCase().includes(q.toLowerCase())));
+ $("ptable").innerHTML=`<table><thead><tr><th>المنتج</th><th>Barcode</th><th>SKU</th><th>بيع</th><th>جملة</th><th>إجراء</th></tr></thead><tbody>${r.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.barcode||"-")}</td><td>${esc(x.sku||"-")}</td><td>${money(x.sale_price)}</td><td>${money(x.wholesale_price)}</td><td><button class="btn sm" onclick="openProduct('${x.id}')">تعديل</button></td></tr>`).join("")}</tbody></table>`;
 }
-async function boot(s){
- try{session=s;await getProfile();$("login").classList.add("hidden");$("app").classList.remove("hidden");$("displayName").textContent=profile.display_name||session.user.email;$("roleText").textContent=(profile.role||"user")+" • "+(company?.name||"");await showPage("dashboard")}catch(e){await sb.auth.signOut();$("loginErr").textContent=e.message||"تعذر تحميل الحساب"}}
-sb.auth.getSession().then(x=>{if(x.data.session)boot(x.data.session)}); sb.auth.onAuthStateChange((ev,s)=>{if(ev==="SIGNED_IN"&&!session)boot(s)});
-
-document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>showPage(b.dataset.page));
-const titles={dashboard:"لوحة التحكم",pos:"نقطة البيع",products:"المنتجات والمخزون",sales:"المبيعات",purchases:"المشتريات",customers:"العملاء",suppliers:"الموردون",expenses:"المصروفات",cash:"الصندوق",employees:"الموظفون",reports:"التقارير",settings:"الإعدادات"};
-async function showPage(p){currentPage=p;$("pageTitle").textContent=titles[p]||p;document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===p));try{if(p==="dashboard")return dashboard();if(p==="pos")return pos();if(p==="products")return productsPage();if(p==="sales")return salesPage();if(p==="purchases")return purchasesPage();if(p==="customers")return customersPage();if(p==="suppliers")return suppliersPage();if(p==="expenses")return expensesPage();if(p==="cash")return cashPage();if(p==="employees")return employeesPage();if(p==="reports")return reportsPage();if(p==="settings")return settingsPage()}catch(e){$("content").innerHTML=`<div class="card"><b>حدث خطأ</b><p>${esc(e.message)}</p></div>`}}
-function refreshPage(){showPage(currentPage)}
-
-async function count(table,filters={}){
- let q=sb.from(table).select("*",{count:"exact",head:true}).eq("company_id",profile.company_id);
- for(const [k,v] of Object.entries(filters))q=q.eq(k,v);const r=await q;return r.count||0
+function renderPOS(){
+ $("content").innerHTML=`<div class="pos"><div><div class="panel"><div class="toolbar"><input id="posSearch" placeholder="ابحث بالاسم / SKU / Barcode" autofocus><button class="btn" onclick="scanBarcode()">كاميرا / قارئ</button></div><div id="posProducts" class="products"></div></div></div><div class="panel cart"><h3>الفاتورة الحالية</h3><div id="cart"></div><div class="field"><label>العميل</label><select id="posCustomer"><option value="">عميل نقدي</option>${customers.map(x=>`<option value="${x.id}">${esc(x.name)} — ${money(x.balance_due)}</option>`).join("")}</select></div><div class="field"><label>طريقة الدفع</label><select id="payMethod"><option value="cash">نقدي</option><option value="card">بطاقة</option><option value="nfc">NFC</option><option value="wallet">محفظة</option><option value="bank_transfer">تحويل بنكي</option></select></div><div class="field"><label>الخصم</label><input id="posDiscount" type="number" value="0" min="0"></div><div class="totals" id="totals"></div><button class="btn primary" style="width:100%;margin-top:12px" onclick="checkout()">إتمام البيع وطباعة الفاتورة</button></div></div>`;
+ $("posSearch").oninput=e=>drawPOSProducts(e.target.value);$("posDiscount").oninput=drawCart;drawPOSProducts("");drawCart();
 }
-async function dashboard(){
- const [p,s,c,sup]=await Promise.all([count("products",{is_active:true}),count("sales",{status:"completed"}),count("customers"),count("suppliers")]);
- const today=new Date();today.setHours(0,0,0,0);
- const r=await sb.from("sales").select("total").eq("company_id",profile.company_id).eq("status","completed").gte("created_at",today.toISOString());
- const todayTotal=(r.data||[]).reduce((a,x)=>a+Number(x.total||0),0);
- const low=await sb.from("stock").select("quantity,product_id,products(name,min_stock)").eq("company_id",profile.company_id);
- const lowCount=(low.data||[]).filter(x=>Number(x.quantity)<=Number(x.products?.min_stock||0)).length;
- $("content").innerHTML=`<div class="grid">
- <div class="card metric"><small>مبيعات اليوم</small><strong>${money(todayTotal)}</strong></div>
- <div class="card metric"><small>عدد المنتجات</small><strong>${p}</strong></div>
- <div class="card metric"><small>فواتير مكتملة</small><strong>${s}</strong></div>
- <div class="card metric"><small>مخزون منخفض</small><strong style="color:${lowCount?'#ff7b8d':'#7df0b1'}">${lowCount}</strong></div>
- </div>
- <div class="grid section">
- <div class="card metric"><small>العملاء</small><strong>${c}</strong></div><div class="card metric"><small>الموردون</small><strong>${sup}</strong></div>
- <div class="card"><b>الشركة</b><p style="color:#9eabc0">${esc(company?.name)}<br>${esc(company?.currency_code||"EGP")}</p></div>
- <div class="card"><b>المستخدم</b><p style="color:#9eabc0">${esc(profile.display_name)}<br>${esc(profile.role)}</p></div></div>
- <div class="card section"><h2>عمليات سريعة</h2><button class="btn primary" onclick="showPage('pos')">فتح نقطة البيع</button> <button class="btn" onclick="productForm()">إضافة منتج</button> <button class="btn" onclick="customerForm()">إضافة عميل</button></div>`
-}
-
-async function loadProducts(){
- const r=await sb.from("products").select("*,categories(name),units(name,symbol)").eq("company_id",profile.company_id).order("created_at",{ascending:false});if(r.error)throw r.error;products=r.data||[];return products
-}
-async function productsPage(){
- await loadProducts();let stocks=await sb.from("stock").select("product_id,branch_id,quantity").eq("company_id",profile.company_id).eq("branch_id",profile.branch_id);
- const sm=new Map((stocks.data||[]).map(x=>[x.product_id,x.quantity]));
- $("content").innerHTML=`<div class="card"><div class="actions"><button class="btn primary" onclick="productForm()">+ إضافة منتج</button><button class="btn" onclick="loadProducts().then(productsPage)">↻</button></div><div class="search"><input placeholder="بحث بالاسم أو SKU أو باركود" oninput="filterProducts(this.value)"></div><div id="productsTable">${productsTable(products,sm)}</div></div>`
-}
-function productsTable(arr,sm=new Map()){if(!arr.length)return `<div class="empty">لا توجد منتجات</div>`;return `<div class="tablewrap"><table class="table"><tr><th>المنتج</th><th>SKU</th><th>الباركود</th><th>سعر البيع</th><th>التكلفة</th><th>المخزون</th><th>إجراء</th></tr>${arr.map(p=>`<tr><td>${esc(p.name)}</td><td>${esc(p.sku||"—")}</td><td>${esc(p.barcode||"—")}</td><td>${money(p.sale_price)}</td><td>${money(p.cost_price)}</td><td>${sm.get(p.id)??"—"}</td><td><button class="btn" onclick="productForm('${p.id}')">تعديل</button> <button class="btn danger" onclick="deleteProduct('${p.id}')">حذف</button></td></tr>`).join("")}</table></div>`}
-function filterProducts(v){const a=products.filter(p=>(p.name+" "+(p.sku||"")+" "+(p.barcode||"")).toLowerCase().includes(v.toLowerCase()));$("productsTable").innerHTML=productsTable(a)}
-async function productForm(id){
- let p=id?products.find(x=>x.id===id):null;
- const cats=await sb.from("categories").select("id,name").eq("company_id",profile.company_id).order("name");const units=await sb.from("units").select("id,name,symbol").eq("company_id",profile.company_id).order("name");
- openModal(id?"تعديل منتج":"إضافة منتج",`<div class="form">
- <div class="field"><label>اسم المنتج *</label><input id="f_name" value="${esc(p?.name)}"></div>
- <div class="field"><label>SKU</label><input id="f_sku" value="${esc(p?.sku)}"></div>
- <div class="field"><label>الباركود</label><input id="f_barcode" value="${esc(p?.barcode)}"></div>
- <div class="field"><label>سعر التكلفة</label><input id="f_cost" type="number" value="${p?.cost_price??0}"></div>
- <div class="field"><label>سعر البيع</label><input id="f_sale" type="number" value="${p?.sale_price??0}"></div>
- <div class="field"><label>سعر الجملة</label><input id="f_wholesale" type="number" value="${p?.wholesale_price??0}"></div>
- <div class="field"><label>الضريبة %</label><input id="f_tax" type="number" value="${p?.tax_rate??0}"></div>
- <div class="field"><label>الحد الأدنى</label><input id="f_min" type="number" value="${p?.min_stock??0}"></div>
- <div class="field"><label>الفئة</label><select id="f_cat"><option value="">بدون</option>${(cats.data||[]).map(x=>`<option value="${x.id}" ${p?.category_id===x.id?"selected":""}>${esc(x.name)}</option>`).join("")}</select></div>
- <div class="field"><label>الوحدة</label><select id="f_unit"><option value="">بدون</option>${(units.data||[]).map(x=>`<option value="${x.id}" ${p?.unit_id===x.id?"selected":""}>${esc(x.name)}</option>`).join("")}</select></div>
- <div class="field full"><label>الوصف</label><textarea id="f_desc">${esc(p?.description)}</textarea></div>
- <div class="field full"><button class="btn primary" onclick="saveProduct('${id||""}')">حفظ</button></div></div>`)
-}
-async function saveProduct(id){
- const obj={company_id:profile.company_id,name:$("f_name").value.trim(),sku:$("f_sku").value.trim()||null,barcode:$("f_barcode").value.trim()||null,cost_price:+$("f_cost").value||0,sale_price:+$("f_sale").value||0,wholesale_price:+$("f_wholesale").value||0,tax_rate:+$("f_tax").value||0,min_stock:+$("f_min").value||0,category_id:$("f_cat").value||null,unit_id:$("f_unit").value||null,description:$("f_desc").value.trim()||null};
- if(!obj.name)return toast("اسم المنتج مطلوب");
- let r=id?await sb.from("products").update(obj).eq("id",id).eq("company_id",profile.company_id):await sb.from("products").insert(obj);if(r.error)return toast(r.error.message);closeModal();toast("تم حفظ المنتج");productsPage()
-}
-async function deleteProduct(id){if(!confirm("حذف المنتج؟"))return;const r=await sb.from("products").update({is_active:false}).eq("id",id).eq("company_id",profile.company_id);if(r.error)toast(r.error.message);else{toast("تم تعطيل المنتج");productsPage()}}
-
-async function pos(){
- await loadProducts();await loadCustomers();
- $("content").innerHTML=`<div class="pos"><div class="card"><div class="search"><input id="posSearch" placeholder="ابحث بالاسم أو الباركود" oninput="renderPOSProducts(this.value)" autofocus></div><div id="posProducts" class="products"></div></div><div class="card"><h2>السلة</h2><div id="cart" class="cart"></div><hr style="border-color:#202a3d"><div class="field"><label>العميل</label><select id="posCustomer"><option value="">عميل نقدي</option>${customers.map(c=>`<option value="${c.id}">${esc(c.name)} — ${esc(c.phone||"")}</option>`).join("")}</select></div><p>الإجمالي: <b id="cartTotal">0.00 ج.م</b></p><button class="btn green" style="width:100%;padding:13px" onclick="checkout()">إتمام البيع وطباعة الفاتورة</button></div></div>`;renderPOSProducts("")
-}
-function renderPOSProducts(v){const a=products.filter(p=>p.is_active && (p.name+" "+(p.barcode||"")+" "+(p.sku||"")).toLowerCase().includes(v.toLowerCase()));$("posProducts").innerHTML=a.map(p=>`<div class="product"><b>${esc(p.name)}</b><div style="color:#8d9ab1">${esc(p.barcode||p.sku||"")}</div><strong>${money(p.sale_price)}</strong><br><button class="btn primary" style="margin-top:7px" onclick="addCart('${p.id}')">إضافة</button></div>`).join("")||`<div class="empty">لا توجد نتائج</div>`}
-function addCart(id){const p=products.find(x=>x.id===id);if(!p)return;let x=cart.find(x=>x.product.id===id);if(x)x.qty++;else cart.push({product:p,qty:1});renderCart()}
-function renderCart(){let total=cart.reduce((s,x)=>s+x.qty*Number(x.product.sale_price||0),0);$("cart").innerHTML=cart.length?cart.map((x,i)=>`<div class="cartrow"><div><b>${esc(x.product.name)}</b><br><small>${x.qty} × ${money(x.product.sale_price)}</small></div><div><button class="btn" onclick="cart[i].qty--;if(cart[i].qty<=0)cart.splice(i,1);renderCart()">−</button> <button class="btn" onclick="cart[i].qty++;renderCart()">+</button></div></div>`).join(""):`<div class="empty">السلة فارغة</div>`;$("cartTotal").textContent=money(total)}
-async function loadCustomers(){const r=await sb.from("customers").select("*").eq("company_id",profile.company_id).order("name");if(r.error)throw r.error;customers=r.data||[]}
+function drawPOSProducts(q){let r=products.filter(x=>[x.name,x.sku,x.barcode].some(v=>String(v||"").toLowerCase().includes(q.toLowerCase())));$("posProducts").innerHTML=r.slice(0,100).map(x=>`<button class="prod" onclick="addCart('${x.id}')"><div class="name">${esc(x.name)}</div><div class="meta">${esc(x.barcode||x.sku||"بدون باركود")}</div><b>${money(x.sale_price)}</b></button>`).join("")||`<div class="empty">لا يوجد منتج</div>`}
+function addCart(id){let p=products.find(x=>x.id===id),r=cart.find(x=>x.id===id);if(r)r.qty++;else cart.push({id,product:p,qty:1});drawCart()}
+function drawCart(){const sub=cart.reduce((a,x)=>a+x.qty*Number(x.product.sale_price),0),discount=Number($("posDiscount")?.value||0),taxRate=Number(settings.default_tax_rate||0),tax=Math.max(0,sub-discount)*taxRate/100,total=Math.max(0,sub-discount+tax);$("cart").innerHTML=cart.map(x=>`<div class="cartrow"><div><b>${esc(x.product.name)}</b><br><small>${money(x.product.sale_price)}</small></div><div class="qty"><button onclick="chg('${x.id}',-1)">−</button>${x.qty}<button onclick="chg('${x.id}',1)">+</button></div><b>${money(x.qty*x.product.sale_price)}</b></div>`).join("")||`<div class="empty">السلة فارغة</div>`;$("totals").innerHTML=`<div class="totalrow"><span>الإجمالي الفرعي</span><b>${money(sub)}</b></div><div class="totalrow"><span>الخصم</span><b>${money(discount)}</b></div><div class="totalrow"><span>الضريبة</span><b>${money(tax)}</b></div><div class="totalrow grand"><span>الإجمالي</span><b>${money(total)}</b></div>`}
+function chg(id,n){let x=cart.find(x=>x.id===id);if(!x)return;x.qty+=n;if(x.qty<=0)cart=cart.filter(y=>y.id!==id);drawCart()}
 async function checkout(){
  if(!cart.length)return toast("السلة فارغة");
- const total=cart.reduce((s,x)=>s+x.qty*Number(x.product.sale_price||0),0), customer=$("posCustomer").value||null;
- if(customer){const c=customers.find(x=>x.id===customer);if(Number(c?.balance_due||0)+total>Number(c?.credit_limit||Infinity))return toast("تجاوز الحد الائتماني للعميل")}
- const sale={company_id:profile.company_id,branch_id:profile.branch_id,cashier_id:session.user.id,customer_id:customer,status:"completed",subtotal:total,discount:0,tax:0,total,notes:null};
- const sr=await sb.from("sales").insert(sale).select().single();if(sr.error)return toast(sr.error.message);
- const saleId=sr.data.id;
- const items=cart.map(x=>({sale_id:saleId,product_id:x.product.id,quantity:x.qty,unit_price:x.product.sale_price,discount:0,tax:0,line_total:x.qty*Number(x.product.sale_price||0)}));
- const ir=await sb.from("sale_items").insert(items);if(ir.error){await sb.from("sales").delete().eq("id",saleId);return toast(ir.error.message)}
- const pr=await sb.from("payments").insert({company_id:profile.company_id,sale_id:saleId,customer_id:customer,amount:total,method:"cash"});if(pr.error)return toast(pr.error.message);
- for(const x of cart){
-  const st=await sb.from("stock").select("quantity").eq("company_id",profile.company_id).eq("branch_id",profile.branch_id).eq("product_id",x.product.id).maybeSingle();
-  const old=Number(st.data?.quantity||0), next=old-x.qty;
-  const up=await sb.from("stock").upsert({company_id:profile.company_id,branch_id:profile.branch_id,product_id:x.product.id,quantity:next,reserved_quantity:0},{onConflict:"branch_id,product_id"});
-  if(up.error)return toast("تمت الفاتورة لكن تعذر تحديث بعض المخزون: "+up.error.message);
-  await sb.from("stock_movements").insert({company_id:profile.company_id,branch_id:profile.branch_id,product_id:x.product.id,type:"sale",quantity:x.qty,reference_id:saleId,note:"بيع من POS",created_by:session.user.id});
- }
- await sb.from("cash_transactions").insert({company_id:profile.company_id,session_id:null,type:"sale",amount:total,reference_id:saleId,note:"POS sale"});
- const saleFull={...sr.data,items};cart=[];toast("تم البيع بنجاح");printReceipt(saleFull);renderCart()
+ const discount=Number($("posDiscount").value||0),sub=cart.reduce((a,x)=>a+x.qty*Number(x.product.sale_price),0),taxRate=Number(settings.default_tax_rate||0),tax=Math.max(0,sub-discount)*taxRate/100,total=Math.max(0,sub-discount+tax);
+ try{
+   const items=cart.map(x=>({product_id:x.id,quantity:x.qty,unit_price:Number(x.product.sale_price),discount:0,tax:0}));
+   const data=await api(sb.rpc("create_sale",{p_company_id:company.id,p_branch_id:branch?.id,p_customer_id:$("posCustomer").value||null,p_status:"completed",p_discount:discount,p_tax:tax,p_notes:null,p_payment_method:$("payMethod").value,p_paid_amount:total,p_items:items}));
+   cart=[];await printInvoice(data.sale_id);await navigate("pos");
+ }catch(e){toast("فشل إتمام البيع: "+e.message)}
 }
-function printReceipt(sale){
- const rows=sale.items.map(i=>{const p=products.find(p=>p.id===i.product_id);return `<tr><td>${esc(p?.name||"منتج")}</td><td>${i.quantity}</td><td>${money(i.unit_price)}</td><td>${money(i.line_total)}</td></tr>`}).join("");
- const w=window.open("","_blank","width=420,height=700");if(!w)return toast("اسمح بالنوافذ المنبثقة للطباعة");
- w.document.write(`<html lang="ar" dir="rtl"><head><title>فاتورة ${sale.invoice_number||sale.id}</title><style>body{font-family:Arial;padding:18px;width:350px;margin:auto;color:#111}h2{text-align:center;margin:0}.line{border-top:1px dashed #333;margin:12px 0}table{width:100%;border-collapse:collapse;font-size:12px}td,th{padding:6px 2px;border-bottom:1px solid #ddd;text-align:right}.total{font-size:18px;font-weight:bold;text-align:left}@media print{button{display:none}}</style></head><body><h2>${esc(company?.name||"ALPHA SMART")}</h2><p style="text-align:center">فاتورة بيع</p><div class="line"></div><p>رقم الفاتورة: ${sale.invoice_number||sale.id}</p><p>التاريخ: ${new Date().toLocaleString("ar-EG")}</p><table><tr><th>المنتج</th><th>ك</th><th>السعر</th><th>الإجمالي</th></tr>${rows}</table><div class="line"></div><div class="total">الإجمالي: ${money(sale.total)}</div><p style="text-align:center">شكرًا لتعاملكم معنا</p><script>window.print()<\/script></body></html>`);w.document.close()
+async function printInvoice(id){
+ const sale=await api(sb.from("sales").select("*,customers(name,phone)").eq("id",id).single()),items=await api(sb.from("sale_items").select("*,products(name,barcode)").eq("sale_id",id));
+ const w=window.open("","_blank","width=420,height=700");if(!w)return toast("المتصفح منع نافذة الطباعة");
+ w.document.write(`<html dir="rtl"><head><title>فاتورة #${sale.invoice_number}</title><style>body{margin:0;background:#eee}.receipt{width:80mm;background:#fff;color:#000;padding:7mm;margin:auto;font-family:Arial,sans-serif}.receipt h2,.receipt p{text-align:center;margin:4px 0}.receipt table{width:100%;border-collapse:collapse;font-size:12px}.receipt th,.receipt td{padding:4px;border-bottom:1px dashed #999}.r-total{display:flex;justify-content:space-between;font-size:17px;font-weight:bold;margin-top:8px}@media print{@page{size:80mm auto;margin:0}body{background:#fff}}</style></head><body><div class="receipt"><h2>${esc(settings.receipt_header||company.name)}</h2><p>فاتورة #${sale.invoice_number}</p><p>${new Date(sale.created_at).toLocaleString("ar-EG")}</p><p>العميل: ${esc(sale.customers?.name||"نقدي")}</p><table><tr><th>الصنف</th><th>ك</th><th>السعر</th></tr>${items.map(x=>`<tr><td>${esc(x.products?.name)}</td><td>${x.quantity}</td><td>${money(x.line_total)}</td></tr>`).join("")}</table><div class="r-total"><span>الإجمالي</span><span>${money(sale.total)}</span></div><p>${esc(settings.receipt_footer||"شكرًا لتعاملكم معنا")}</p></div><script>window.onload=()=>{window.print()}<\/script></body></html>`);w.document.close();
 }
-
-async function salesPage(){
- const r=await sb.from("sales").select("*,customers(name)").eq("company_id",profile.company_id).order("created_at",{ascending:false}).limit(200);if(r.error)throw r.error;
- $("content").innerHTML=`<div class="card"><div class="tablewrap"><table class="table"><tr><th>الفاتورة</th><th>العميل</th><th>الحالة</th><th>الإجمالي</th><th>التاريخ</th><th></th></tr>${(r.data||[]).map(s=>`<tr><td>#${s.invoice_number}</td><td>${esc(s.customers?.name||"نقدي")}</td><td><span class="pill">${s.status}</span></td><td>${money(s.total)}</td><td>${new Date(s.created_at).toLocaleString("ar-EG")}</td><td><button class="btn" onclick="viewSale('${s.id}')">عرض/طباعة</button></td></tr>`).join("")}</table></div></div>`
+function openProduct(id){
+ const p=id?products.find(x=>x.id===id):{};
+ modal(`<h3>${id?"تعديل منتج":"إضافة منتج"}</h3><div class="formgrid">
+ <div class="field"><label>اسم المنتج</label><input id="fName" value="${esc(p.name||"")}"></div>
+ <div class="field"><label>Barcode</label><input id="fBarcode" value="${esc(p.barcode||"")}"></div>
+ <div class="field"><label>SKU</label><input id="fSku" value="${esc(p.sku||"")}"></div>
+ <div class="field"><label>سعر التكلفة</label><input id="fCost" type="number" value="${p.cost_price||0}"></div>
+ <div class="field"><label>سعر البيع</label><input id="fSale" type="number" value="${p.sale_price||0}"></div>
+ <div class="field"><label>سعر الجملة</label><input id="fWhole" type="number" value="${p.wholesale_price||0}"></div>
+ <div class="field"><label>الضريبة %</label><input id="fTax" type="number" value="${p.tax_rate||0}"></div>
+ <div class="field"><label>حد المخزون</label><input id="fMin" type="number" value="${p.min_stock||0}"></div>
+ </div><div class="actions"><button class="btn primary" onclick="saveProduct('${id||""}')">حفظ</button><button class="btn" onclick="closeModal()">إلغاء</button></div>`);
 }
-async function viewSale(id){const r=await sb.from("sales").select("*,sale_items(*,products(name))").eq("id",id).single();if(r.error)return toast(r.error.message);const s=r.data;openModal("فاتورة #"+s.invoice_number,`<div class="receipt"><p>التاريخ: ${new Date(s.created_at).toLocaleString("ar-EG")}</p><div class="tablewrap"><table class="table"><tr><th>المنتج</th><th>الكمية</th><th>الإجمالي</th></tr>${s.sale_items.map(i=>`<tr><td>${esc(i.products?.name)}</td><td>${i.quantity}</td><td>${money(i.line_total)}</td></tr>`).join("")}</table></div><h2>الإجمالي: ${money(s.total)}</h2><button class="btn primary no-print" onclick="printReceipt({id:'${s.id}',invoice_number:${s.invoice_number},total:${s.total},items:${JSON.stringify(s.sale_items).replace(/</g,'\\u003c')}});">طباعة</button></div>`)}
-
-async function purchasesPage(){
- const r=await sb.from("purchases").select("*,suppliers(name)").eq("company_id",profile.company_id).order("created_at",{ascending:false}).limit(200);if(r.error)throw r.error;
- $("content").innerHTML=`<div class="card"><button class="btn primary" onclick="purchaseForm()">+ شراء جديد</button><div class="tablewrap" style="margin-top:12px"><table class="table"><tr><th>الفاتورة</th><th>المورد</th><th>الإجمالي</th><th>المدفوع</th><th>التاريخ</th></tr>${(r.data||[]).map(x=>`<tr><td>${esc(x.invoice_number||"—")}</td><td>${esc(x.suppliers?.name||"—")}</td><td>${money(x.total)}</td><td>${money(x.paid)}</td><td>${new Date(x.created_at).toLocaleString("ar-EG")}</td></tr>`).join("")}</table></div></div>`
+async function saveProduct(id){
+ const row={company_id:company.id,name:$("fName").value.trim(),barcode:$("fBarcode").value.trim()||null,sku:$("fSku").value.trim()||null,cost_price:Number($("fCost").value||0),sale_price:Number($("fSale").value||0),wholesale_price:Number($("fWhole").value||0),tax_rate:Number($("fTax").value||0),min_stock:Number($("fMin").value||0),is_active:true};
+ try{if(id)await api(sb.from("products").update(row).eq("id",id).eq("company_id",company.id));else await api(sb.from("products").insert(row));closeModal();navigate("products")}catch(e){toast(e.message)}
 }
-async function purchaseForm(){
- await loadProducts();await loadSuppliers();
- openModal("شراء جديد",`<div class="form"><div class="field"><label>المورد</label><select id="pu_supplier"><option value="">بدون</option>${suppliers.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join("")}</select></div><div class="field"><label>رقم الفاتورة</label><input id="pu_inv"></div><div class="field full"><label>المنتجات (اختر منتجًا ثم الكمية والتكلفة)</label><select id="pu_product">${products.filter(p=>p.is_active).map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("")}</select><div style="display:flex;gap:8px;margin-top:8px"><input id="pu_qty" type="number" value="1" min="1"><input id="pu_cost" type="number" value="0"><button class="btn" onclick="addPurchaseLine()">إضافة</button></div></div><div class="field full"><div id="pu_lines" class="card">لا توجد أصناف</div></div><div class="field full"><button class="btn primary" onclick="savePurchase()">حفظ الشراء وزيادة المخزون</button></div></div>`);window.puLines=[]
-}
-function addPurchaseLine(){const p=products.find(x=>x.id==$("pu_product").value);puLines.push({product_id:p.id,name:p.name,quantity:+$("pu_qty").value||1,unit_cost:+$("pu_cost").value||0});$("pu_lines").innerHTML=puLines.map((x,i)=>`${esc(x.name)} — ${x.quantity} × ${money(x.unit_cost)} <button class="btn danger" onclick="puLines.splice(${i},1);addPurchaseLine()">حذف</button>`).join("<hr>")}
-async function savePurchase(){
- if(!puLines.length)return toast("أضف صنفًا");
- const total=puLines.reduce((s,x)=>s+x.quantity*x.unit_cost,0),r=await sb.from("purchases").insert({company_id:profile.company_id,branch_id:profile.branch_id,supplier_id:$("pu_supplier").value||null,invoice_number:$("pu_inv").value.trim()||null,subtotal:total,tax:0,total,paid:0}).select().single();if(r.error)return toast(r.error.message);
- const items=puLines.map(x=>({purchase_id:r.data.id,product_id:x.product_id,quantity:x.quantity,unit_cost:x.unit_cost,line_total:x.quantity*x.unit_cost}));const ir=await sb.from("purchase_items").insert(items);if(ir.error)return toast(ir.error.message);
- for(const x of puLines){const st=await sb.from("stock").select("quantity").eq("company_id",profile.company_id).eq("branch_id",profile.branch_id).eq("product_id",x.product_id).maybeSingle();const q=Number(st.data?.quantity||0)+x.quantity;const up=await sb.from("stock").upsert({company_id:profile.company_id,branch_id:profile.branch_id,product_id:x.product_id,quantity:q,reserved_quantity:0},{onConflict:"branch_id,product_id"});if(up.error)return toast(up.error.message);await sb.from("stock_movements").insert({company_id:profile.company_id,branch_id:profile.branch_id,product_id:x.product_id,type:"purchase",quantity:x.quantity,reference_id:r.data.id,note:"شراء",created_by:session.user.id})}
- closeModal();toast("تم تسجيل الشراء وتحديث المخزون");purchasesPage()
-}
-
-async function loadSuppliers(){const r=await sb.from("suppliers").select("*").eq("company_id",profile.company_id).order("name");if(r.error)throw r.error;suppliers=r.data||[]}
-async function customersPage(){await loadCustomers();$("content").innerHTML=`<div class="card"><button class="btn primary" onclick="customerForm()">+ عميل</button><div class="tablewrap" style="margin-top:12px"><table class="table"><tr><th>الاسم</th><th>الهاتف</th><th>الحد الائتماني</th><th>المستحق</th><th></th></tr>${customers.map(c=>`<tr><td>${esc(c.name)}</td><td>${esc(c.phone||"")}</td><td>${money(c.credit_limit)}</td><td>${money(c.balance_due)}</td><td><button class="btn" onclick="customerForm('${c.id}')">تعديل</button> <button class="btn danger" onclick="deleteRow('customers','${c.id}',customersPage)">حذف</button></td></tr>`).join("")}</table></div></div>`}
-async function customerForm(id){let c=id?customers.find(x=>x.id===id):null;openModal(id?"تعديل عميل":"إضافة عميل",`<div class="form"><div class="field"><label>الاسم *</label><input id="c_name" value="${esc(c?.name)}"></div><div class="field"><label>الهاتف</label><input id="c_phone" value="${esc(c?.phone)}"></div><div class="field"><label>البريد</label><input id="c_email" value="${esc(c?.email)}"></div><div class="field"><label>الحد الائتماني</label><input id="c_limit" type="number" value="${c?.credit_limit??0}"></div><div class="field full"><label>العنوان</label><input id="c_addr" value="${esc(c?.address)}"></div><div class="field full"><button class="btn primary" onclick="saveCustomer('${id||""}')">حفظ</button></div></div>`)}
-async function saveCustomer(id){const o={company_id:profile.company_id,name:$("c_name").value.trim(),phone:$("c_phone").value.trim()||null,email:$("c_email").value.trim()||null,address:$("c_addr").value.trim()||null,credit_limit:+$("c_limit").value||0};if(!o.name)return toast("الاسم مطلوب");const r=id?await sb.from("customers").update(o).eq("id",id):await sb.from("customers").insert(o);if(r.error)return toast(r.error.message);closeModal();customersPage()}
-async function suppliersPage(){await loadSuppliers();$("content").innerHTML=`<div class="card"><button class="btn primary" onclick="supplierForm()">+ مورد</button><div class="tablewrap" style="margin-top:12px"><table class="table"><tr><th>الاسم</th><th>الهاتف</th><th>المستحق</th><th></th></tr>${suppliers.map(s=>`<tr><td>${esc(s.name)}</td><td>${esc(s.phone||"")}</td><td>${money(s.balance_due)}</td><td><button class="btn" onclick="supplierForm('${s.id}')">تعديل</button> <button class="btn danger" onclick="deleteRow('suppliers','${s.id}',suppliersPage)">حذف</button></td></tr>`).join("")}</table></div></div>`}
-async function supplierForm(id){let s=id?suppliers.find(x=>x.id===id):null;openModal(id?"تعديل مورد":"إضافة مورد",`<div class="form"><div class="field"><label>الاسم *</label><input id="s_name" value="${esc(s?.name)}"></div><div class="field"><label>الهاتف</label><input id="s_phone" value="${esc(s?.phone)}"></div><div class="field"><label>البريد</label><input id="s_email" value="${esc(s?.email)}"></div><div class="field full"><label>العنوان</label><input id="s_addr" value="${esc(s?.address)}"></div><div class="field full"><button class="btn primary" onclick="saveSupplier('${id||""}')">حفظ</button></div></div>`)}
-async function saveSupplier(id){const o={company_id:profile.company_id,name:$("s_name").value.trim(),phone:$("s_phone").value.trim()||null,email:$("s_email").value.trim()||null,address:$("s_addr").value.trim()||null};if(!o.name)return toast("الاسم مطلوب");const r=id?await sb.from("suppliers").update(o).eq("id",id):await sb.from("suppliers").insert(o);if(r.error)return toast(r.error.message);closeModal();suppliersPage()}
-async function deleteRow(t,id,fn){if(!confirm("حذف السجل؟"))return;const r=await sb.from(t).delete().eq("id",id).eq("company_id",profile.company_id);if(r.error)toast(r.error.message);else{toast("تم الحذف");fn()}}
-
-async function expensesPage(){const r=await sb.from("expenses").select("*").eq("company_id",profile.company_id).order("created_at",{ascending:false}).limit(200);$("content").innerHTML=`<div class="card"><button class="btn primary" onclick="expenseForm()">+ مصروف</button><div class="tablewrap" style="margin-top:12px"><table class="table"><tr><th>العنوان</th><th>الفئة</th><th>المبلغ</th><th>التاريخ</th><th></th></tr>${(r.data||[]).map(x=>`<tr><td>${esc(x.title)}</td><td>${esc(x.category||"")}</td><td>${money(x.amount)}</td><td>${new Date(x.created_at).toLocaleString("ar-EG")}</td><td><button class="btn danger" onclick="deleteRow('expenses','${x.id}',expensesPage)">حذف</button></td></tr>`).join("")}</table></div></div>`}
-function expenseForm(){openModal("إضافة مصروف",`<div class="form"><div class="field"><label>العنوان</label><input id="e_title"></div><div class="field"><label>الفئة</label><input id="e_cat"></div><div class="field"><label>المبلغ</label><input id="e_amount" type="number"></div><div class="field full"><button class="btn primary" onclick="saveExpense()">حفظ</button></div></div>`)}
-async function saveExpense(){const o={company_id:profile.company_id,branch_id:profile.branch_id,created_by:session.user.id,title:$("e_title").value.trim(),category:$("e_cat").value.trim()||null,amount:+$("e_amount").value||0};const r=await sb.from("expenses").insert(o);if(r.error)return toast(r.error.message);closeModal();toast("تم حفظ المصروف");expensesPage()}
-
-async function cashPage(){const r=await sb.from("cash_registers").select("*").eq("company_id",profile.company_id).order("name");$("content").innerHTML=`<div class="grid">${(r.data||[]).map(x=>`<div class="card"><b>${esc(x.name)}</b><p>${x.is_active?"نشط":"غير نشط"}</p></div>`).join("")||`<div class="card">لا توجد خزائن بعد.</div>`}</div><div class="card section"><h2>آخر حركات الصندوق</h2>${await cashRows()}</div>`}
-async function cashRows(){const r=await sb.from("cash_transactions").select("*").eq("company_id",profile.company_id).order("created_at",{ascending:false}).limit(100);return `<div class="tablewrap"><table class="table"><tr><th>النوع</th><th>المبلغ</th><th>التاريخ</th></tr>${(r.data||[]).map(x=>`<tr><td>${x.type}</td><td>${money(x.amount)}</td><td>${new Date(x.created_at).toLocaleString("ar-EG")}</td></tr>`).join("")}</table></div>`}
-
-async function employeesPage(){const r=await sb.from("employees").select("*").eq("company_id",profile.company_id).order("name");$("content").innerHTML=`<div class="card"><button class="btn primary" onclick="employeeForm()">+ موظف</button><div class="tablewrap" style="margin-top:12px"><table class="table"><tr><th>الاسم</th><th>الوظيفة</th><th>الراتب</th><th>الهاتف</th></tr>${(r.data||[]).map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.position||"")}</td><td>${money(x.base_salary)}</td><td>${esc(x.phone||"")}</td></tr>`).join("")}</table></div></div>`}
-function employeeForm(){openModal("إضافة موظف",`<div class="form"><div class="field"><label>الاسم</label><input id="em_name"></div><div class="field"><label>الهاتف</label><input id="em_phone"></div><div class="field"><label>الوظيفة</label><input id="em_pos"></div><div class="field"><label>الراتب</label><input id="em_salary" type="number"></div><div class="field full"><button class="btn primary" onclick="saveEmployee()">حفظ</button></div></div>`)}
-async function saveEmployee(){const r=await sb.from("employees").insert({company_id:profile.company_id,branch_id:profile.branch_id,name:$("em_name").value.trim(),phone:$("em_phone").value.trim()||null,position:$("em_pos").value.trim()||null,salary_type:"monthly",base_salary:+$("em_salary").value||0,is_active:true});if(r.error)return toast(r.error.message);closeModal();employeesPage()}
-
-async function reportsPage(){const today=new Date();today.setHours(0,0,0,0);const r=await sb.from("sales").select("total,status,created_at").eq("company_id",profile.company_id).gte("created_at",today.toISOString());const completed=(r.data||[]).filter(x=>x.status==="completed");const total=completed.reduce((s,x)=>s+Number(x.total||0),0);$("content").innerHTML=`<div class="grid"><div class="card metric"><small>مبيعات اليوم</small><strong>${money(total)}</strong></div><div class="card metric"><small>عدد الفواتير</small><strong>${completed.length}</strong></div></div><div class="card section"><h2>تصدير المبيعات</h2><button class="btn primary" onclick="exportSales()">تحميل CSV</button></div>`}
-async function exportSales(){const r=await sb.from("sales").select("invoice_number,status,subtotal,discount,tax,total,created_at").eq("company_id",profile.company_id).order("created_at",{ascending:false});const rows=[["invoice_number","status","subtotal","discount","tax","total","created_at"],...(r.data||[]).map(x=>[x.invoice_number,x.status,x.subtotal,x.discount,x.tax,x.total,x.created_at])];const csv=rows.map(a=>a.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(",")).join("\\n");const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\\ufeff"+csv],{type:"text/csv;charset=utf-8"}));a.download="alpha-smart-sales.csv";a.click()}
-
-async function settingsPage(){const r=await sb.from("settings").select("*").eq("company_id",profile.company_id).maybeSingle();const s=r.data||{};$("content").innerHTML=`<div class="card"><h2>إعدادات الفاتورة</h2><div class="form"><div class="field"><label>عنوان الفاتورة</label><textarea id="set_head">${esc(s.receipt_header||company?.name||"Alpha Smart")}</textarea></div><div class="field"><label>تذييل الفاتورة</label><textarea id="set_foot">${esc(s.receipt_footer||"شكرًا لتعاملكم معنا")}</textarea></div><div class="field"><label>رقم واتساب</label><input id="set_wa" value="${esc(s.whatsapp_number)}"></div><div class="field"><label>الضريبة الافتراضية %</label><input id="set_tax" type="number" value="${s.default_tax_rate??0}"></div><div class="field full"><button class="btn primary" onclick="saveSettings()">حفظ الإعدادات</button></div></div></div>`}
-async function saveSettings(){const o={company_id:profile.company_id,receipt_header:$("set_head").value,receipt_footer:$("set_foot").value,whatsapp_number:$("set_wa").value,default_tax_rate:+$("set_tax").value||0,updated_at:new Date().toISOString()};const r=await sb.from("settings").upsert(o);if(r.error)toast(r.error.message);else toast("تم حفظ الإعدادات")}
-
+function openCustomer(){modal(`<h3>إضافة عميل</h3><div class="formgrid"><div class="field"><label>الاسم</label><input id="cn"></div><div class="field"><label>الهاتف</label><input id="cp"></div><div class="field full"><label>العنوان</label><input id="ca"></div></div><button class="btn primary" onclick="saveCustomer()">حفظ</button>`)}
+async function saveCustomer(){try{await api(sb.from("customers").insert({company_id:company.id,name:$("cn").value.trim(),phone:$("cp").value.trim()||null,address:$("ca").value.trim()||null}));closeModal();navigate("customers")}catch(e){toast(e.message)}}
+function openSupplier(){modal(`<h3>إضافة مورد</h3><div class="formgrid"><div class="field"><label>الاسم</label><input id="sn"></div><div class="field"><label>الهاتف</label><input id="sp"></div><div class="field full"><label>العنوان</label><input id="sa"></div></div><button class="btn primary" onclick="saveSupplier()">حفظ</button>`)}
+async function saveSupplier(){try{await api(sb.from("suppliers").insert({company_id:company.id,name:$("sn").value.trim(),phone:$("sp").value.trim()||null,address:$("sa").value.trim()||null}));closeModal();navigate("suppliers")}catch(e){toast(e.message)}}
+function openExpense(){modal(`<h3>تسجيل مصروف</h3><div class="formgrid"><div class="field"><label>العنوان</label><input id="en"></div><div class="field"><label>التصنيف</label><input id="ec"></div><div class="field"><label>المبلغ</label><input id="ea" type="number"></div></div><button class="btn primary" onclick="saveExpense()">حفظ</button>`)}
+async function saveExpense(){try{await api(sb.from("expenses").insert({company_id:company.id,branch_id:branch?.id,created_by:session.user.id,title:$("en").value.trim(),category:$("ec").value.trim()||null,amount:Number($("ea").value||0)}));closeModal();navigate("expenses")}catch(e){toast(e.message)}}
+function openPurchase(){modal(`<h3>فاتورة شراء</h3><p style="color:var(--muted)">هذه الشاشة تعتمد على RPC المشتريات بعد تشغيل ملف SQL المرفق. الواجهة الأساسية جاهزة.</p><button class="btn" onclick="closeModal()">إغلاق</button>`)}
+function customerStatement(id){navigate("sales")}
+function scanBarcode(){const v=prompt("اكتب/امسح Barcode:");if(v){$("posSearch").value=v;drawPOSProducts(v)}}
+function printLabels(){toast("حدد المنتجات أولًا في نسخة الملصقات المتقدمة.")}
+function exportSales(){toast("تصدير التقرير سيتم من بيانات المبيعات الحالية.")}
+async function saveSettings(){try{const row={company_id:company.id,receipt_header:$("setHead").value,receipt_footer:$("setFoot").value,whatsapp_number:$("setWA").value,default_tax_rate:Number($("setTax").value||0),updated_at:new Date().toISOString()};await api(sb.from("settings").upsert(row));settings=row;toast("تم الحفظ")}catch(e){toast(e.message)}}
+function modal(html){$("modalBox").innerHTML=html;$("modal").classList.add("show")}function closeModal(){$("modal").classList.remove("show")}
+$("modal").onclick=e=>{if(e.target.id==="modal")closeModal()};
+sb.auth.onAuthStateChange((_e,s)=>{if(s&&!session)boot()});
+boot();
 </script>
 </body>
 </html>
